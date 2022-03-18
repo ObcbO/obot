@@ -23,12 +23,15 @@ function sendmessage() {
 function command (text) {
     switch (text[0]) {
         case ".help":
-            mcs.cmd("在做了在做了")
+            mcs.cmd("---- HELP 帮助 ----")
+            mcs.cmd(".help  --查看帮助")
+            mcs.cmd(".say 消息 --发送消息")
+            mcs.cmd("------- END -------")
             break
         case ".say":
             mcs.cmd("已发送消息文本")
             bot.chat(noc)
-        break
+            break
         default:
             mcs.cmd("错误的命令，请输入 .help 查看帮助")
     }
