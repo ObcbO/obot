@@ -1,0 +1,19 @@
+{
+  "name": "mineflayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ObcbO",
+  "license": "ISC",
+  "dependencies": {
+    "colors-console": "^1.0.3",
+    "mineflayer": "^4.1.0",
+    "mineflayer-auto-eat": "^2.3.3",
+    "mineflayer-pathfinder": "^1.10.0",
+    "mineflayer-pvp": "^1.2.1",
+    "prismarine-registry": "^1.1.0"
+  }
+}
