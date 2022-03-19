@@ -15,20 +15,15 @@ const bot = mineflayer.createBot({
     username: 'ChinaTrump',
     port: 25565,
 })
+//让所有js都可以访问bot
+global.bot =bot
 
 //my
-module.exports = {
-    chat
-}
 const input = require('./input')
 const mcs = require('./console')
 
 //load plugin
 bot.loadPlugin(autoEat)
-
-function chat(msg) {
-    bot.chat(msg)
-}
 
 //初始化
 
