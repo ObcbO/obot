@@ -16,8 +16,15 @@ const bot = mineflayer.createBot({
     port: 25565,
     enableServerListing: false
 })
+
+//load plugins
+bot.loadPlugin(autoEat)
+bot.loadPlugin(pathfinder)
+bot.loadPlugin(pvp)
+
 //让所有js都可以访问b
 global.bot = bot
+global.pvp = pvp
 global.pathfinder = pathfinder
 global.Movements = Movements
 global.GoalNear = GoalNear
@@ -25,10 +32,6 @@ global.GoalNear = GoalNear
 //my
 const input = require('./input')
 const mcs = require('./output')
-
-//load plugins
-bot.loadPlugin(autoEat)
-bot.loadPlugin(pathfinder)
 
 //初始化
 var owner
@@ -49,7 +52,7 @@ bot.on('chat', async (username, message) => {
 })
 bot.on('whisper', async (username, message) => {
     mcs.whisper(username, message)
-    if (username === bot.username && username === "you") return
+    if (username === bot.username) return
     if (message.slice(0, 1) == "." && username == global.owner) input.handling(message)
 })
 
@@ -59,7 +62,6 @@ bot.on('kicked', function (reason) {
 bot.on('error', (err) => {
     mcs.error(err)
 })
-
 bot.on('spawn', () => {
     bot.on('death', function () {
         mcs.warn("DEATH Position " + bot.entity.position)

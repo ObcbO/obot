@@ -32,20 +32,6 @@ function announceArrived() {
 
 function command(text) {
     switch (text[0]) {
-        case ".go":
-            break
-        case "." :
-        case ".help":
-            mcs.cmd("----- HELP 帮助 -----")
-            mcs.cmd("|.bot [type/help]  --查看机器人信息")
-            mcs.cmd("|.go x y z  --前往某个位置")
-            mcs.cmd("|.help  --查看帮助")
-            mcs.cmd("|.kill 玩家  --杀死某个玩家(在视距范围内寻找)")
-            mcs.cmd("|.owner [玩家]  --主人")
-            mcs.cmd("|.say 消息  --发送消息")
-            mcs.cmd("|.exit  --退出服务器")
-            mcs.cmd("-------- END --------")
-            break
         case ".bot":
             switch (noc) {
                 case "food":
@@ -81,6 +67,30 @@ function command(text) {
                     mcs.cmd("Time " + bot.oxygenLevel)
                     mcs.cmd("Position " + bot.entity.position + "(" + bot.game.dimension + ")")
             }
+            break
+        case ".go":
+            break
+        case "." :
+        case ".help":
+            mcs.cmd("----- HELP 帮助 -----")
+            mcs.cmd("|.bot [type/help]  --查看机器人信息")
+            mcs.cmd("|.go x y z  --前往某个位置")
+            mcs.cmd("|.help  --查看帮助")
+            mcs.cmd("|.kill 玩家  --杀死某个玩家(在视距范围内寻找)")
+            mcs.cmd("|.killstop  --停止追杀")
+            mcs.cmd("|.owner [玩家]  --主人")
+            mcs.cmd("|.say 消息  --发送消息")
+            mcs.cmd("|.exit  --退出服务器")
+            mcs.cmd("-------- END --------")
+            break
+        case ".kill":
+            if (noc) {
+                mcs.cmd("即将开始追杀玩家 ID: " + noc)
+                bot.pvp.attack(bot.players[noc].entity)
+            }
+            break
+        case ".killstop":
+            bot.pvp.stop()
             break
         case ".owner":
             if (!noc) {
