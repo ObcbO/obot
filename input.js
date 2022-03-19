@@ -1,25 +1,29 @@
-const mcs = require('./console')
+const main = require('./main');
+const mcs = require('./output')
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
 })
 module.exports = {
     sendmessage,
-    command
+    handling
 }
 
 var noc
-
 bot.loadPlugin(pathfinder)
 
 function sendmessage() {
     readline.question(``, async msg => {
         if (msg.slice(0, 1) == ".") {
-            noc = msg.slice(msg.trim().split(" ")[0].length + 1)
-            command(msg.trim().split(" "))
+            handling(msg)
         } else bot.chat(msg)
         sendmessage()
     })
+}
+
+function handling(msg) {
+    noc = msg.slice(msg.trim().split(" ")[0].length + 1)
+    command(msg.trim().split(" "))
 }
 
 function announceArrived() {
@@ -33,6 +37,7 @@ function command(text) {
             bot.pathfinder.setMovements(new Movements(bot, mcData))
             bot.pathfinder.goto(new GoalNear(text[1], text[2], text[3])).then(announceArrived)
             break
+        case "." :
         case ".help":
             mcs.cmd("----- HELP 帮助 -----")
             mcs.cmd(".go x y z  --前往某个位置")
@@ -66,7 +71,7 @@ function command(text) {
                     mcs.cmd("Time " + bot.oxygenLevel)
                     break
                 case "position":
-                    mcs.cmd("Position " + bot.entity.position)
+                    mcs.cmd("Position " + bot.entity.position + "(" + bot.game.dimension + ")")
                     break
                 default:
                     mcs.cmd("Name " + bot.username)
@@ -75,22 +80,26 @@ function command(text) {
                     mcs.cmd("Oxygen " + bot.oxygenLevel)
                     mcs.cmd("Exp " + bot.experience.points)
                     mcs.cmd("Time " + bot.oxygenLevel)
-                    mcs.cmd("Position " + bot.entity.position)
+                    mcs.cmd("Position " + bot.entity.position + "(" + bot.game.dimension + ")")
             }
             break
         case ".owner":
-            if (noc !== null) {
-                onwer = noc
-                mcs.cmd("设置成功 Owner: " + owner)
-            } else {
-                if (owner === null) {
+            if (!noc) {
+                if (!main.owner && typeof (main.owner) == "undefined") {
                     mcs.error("BOT还没有设置主人 请使用 '/owner 玩家' 来设置")
-                } else mcs.cmd("Owner: " + owner)
+                } else mcs.cmd("Owner: " + main.owner)
+            } else {
+                main.owner = noc
+                mcs.cmd("设置成功 Owner: " + main.owner)
             }
             break
         case ".say":
-            mcs.cmd("已发送消息文本")
-            bot.chat(noc)
+            if (noc) {
+                mcs.cmd("已发送消息文本")
+                bot.chat(noc)
+            } else {
+                mcs.cmd("你好像还没有输入要发送的消息")
+            }
             break
         default:
             mcs.cmd("错误的命令，请输入 .help 查看帮助")
