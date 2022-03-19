@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "colors-console": "^1.0.3",
+    "minecraft-data": "^2.220.0",
     "mineflayer": "^4.1.0",
     "mineflayer-auto-eat": "^2.3.3",
     "mineflayer-pathfinder": "^1.10.0",

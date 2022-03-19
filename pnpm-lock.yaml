@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   colors-console: ^1.0.3
+  minecraft-data: ^2.220.0
   mineflayer: ^4.1.0
   mineflayer-auto-eat: ^2.3.3
   mineflayer-pathfinder: ^1.10.0
@@ -10,6 +11,7 @@ specifiers:
 
 dependencies:
   colors-console: registry.npmmirror.com/colors-console/1.0.3
+  minecraft-data: registry.npmmirror.com/minecraft-data/2.220.0
   mineflayer: registry.npmmirror.com/mineflayer/4.1.0_prismarine-registry@1.1.0
   mineflayer-auto-eat: registry.npmmirror.com/mineflayer-auto-eat/2.3.3
   mineflayer-pathfinder: registry.npmmirror.com/mineflayer-pathfinder/1.10.0
