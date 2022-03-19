@@ -9,7 +9,6 @@ module.exports = {
 }
 
 var noc
-bot.loadPlugin(pathfinder)
 
 function sendmessage() {
     readline.question(``, async msg => {
@@ -23,11 +22,6 @@ function sendmessage() {
 function handling(msg) {
     noc = msg.slice(msg.trim().split(" ")[0].length + 1)
     command(msg.trim().split(" "))
-}
-
-function announceArrived() {
-    const botPosition = bot.entity.position
-    mcs.cmd(`Arrived, "Position " + bot.entity.position`)
 }
 
 function command(text) {
@@ -68,29 +62,46 @@ function command(text) {
                     mcs.cmd("Position " + bot.entity.position + "(" + bot.game.dimension + ")")
             }
             break
-        case ".go":
+        case ".follow":
+            const player = bot.players[text[1]]
+            if (!player || !player.entity) {
+                mcs.cmd("Can't find " + text[1])
+                return
+            }
+            const mcData = require('minecraft-data')(bot.version)
+            const movements = new Movements(bot, mcData)            
+            movements.scafoldingBlocks = []
+            bot.pathfinder.setMovements(movements)
+            const goal = new goals.GoalFollow(player.entity, 1)
+            bot.pathfinder.setGoal(goal, true)
             break
-        case "." :
+        case ".go":
+            bot.pathfinder.setGoal(new goals(text[1], text[2], text[3], 1))
+            mcs.cmd("End. Position: " + bot.entity.position)
+            break
+        case ".":
         case ".help":
             mcs.cmd("----- HELP 帮助 -----")
             mcs.cmd("|.bot [type/help]  --查看机器人信息")
+            mcs.cmd("|.follow [玩家]  --跟随某个玩家")
             mcs.cmd("|.go x y z  --前往某个位置")
             mcs.cmd("|.help  --查看帮助")
             mcs.cmd("|.kill 玩家  --杀死某个玩家(在视距范围内寻找)")
-            mcs.cmd("|.killstop  --停止追杀")
             mcs.cmd("|.owner [玩家]  --主人")
             mcs.cmd("|.say 消息  --发送消息")
+            mcs.cmd("|.stop  --停止追杀")
             mcs.cmd("|.exit  --退出服务器")
             mcs.cmd("-------- END --------")
             break
         case ".kill":
             if (noc) {
-                mcs.cmd("即将开始追杀玩家 ID: " + noc)
-                bot.pvp.attack(bot.players[noc].entity)
+                if (noc == bot.username) {
+                    mcs.cmd("不能自己杀自己")
+                } else {
+                    mcs.cmd("即将开始追杀玩家 ID: " + noc)
+                    bot.pvp.attack(bot.players[noc].entity)
+                }
             }
-            break
-        case ".killstop":
-            bot.pvp.stop()
             break
         case ".owner":
             if (!noc) {
@@ -109,6 +120,10 @@ function command(text) {
             } else {
                 mcs.cmd("你好像还没有输入要发送的消息")
             }
+            break
+        case ".stop":
+            bot.pvp.stop()
+            bot.pathfinder.setGoal(null)
             break
         case ".exit":
             bot.end

@@ -6,9 +6,7 @@ const pvp = require('mineflayer-pvp').plugin
 const autoEat = require('mineflayer-auto-eat')
 const pathfinder = require('mineflayer-pathfinder').pathfinder
 const Movements = require('mineflayer-pathfinder').Movements
-const {
-    GoalNear
-} = require('mineflayer-pathfinder').goals
+const goals = require('mineflayer-pathfinder').goals
 
 const bot = mineflayer.createBot({
     host: 'localhost',
@@ -22,16 +20,16 @@ bot.loadPlugin(autoEat)
 bot.loadPlugin(pathfinder)
 bot.loadPlugin(pvp)
 
+//my
+const input = require('./input')
+const mcs = require('./output')
+
 //让所有js都可以访问b
 global.bot = bot
 global.pvp = pvp
 global.pathfinder = pathfinder
 global.Movements = Movements
-global.GoalNear = GoalNear
-
-//my
-const input = require('./input')
-const mcs = require('./output')
+global.goals = goals
 
 //初始化
 var owner
@@ -66,9 +64,6 @@ bot.on('spawn', () => {
     bot.on('death', function () {
         mcs.warn("DEATH Position " + bot.entity.position)
     })
-    bot.on('forcedMove', function () {
-        mcs.warn("Robot is in " + bot.entity.position)
-    })
     //eat
     bot.on('autoeat_started', () => {
         console.warn('Auto Eat started!')
@@ -84,4 +79,14 @@ bot.on('spawn', () => {
             bot.autoEat.enable()
         }
     })
+
+    setInterval(() => {
+        const mobFilter = e => e.type === 'mob' && e.mobType === 'Zombie'
+        const mob = bot.nearestEntity(mobFilter)
+        if (!mob) return;
+        const pos = mob.position;
+        bot.lookAt(pos, true, () => {
+            bot.attack(mob);
+        });
+    }, 1000);
 })
