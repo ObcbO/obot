@@ -46,12 +46,13 @@ bot.on('message', async (game_info) => {
 //控制台聊天显示
 bot.on('chat', async (username, message) => {
     mcs.chat(username, message)
-    if (username === bot.username) return
-    if (message.slice(0, 1) == "." && username == owner) {
-        console.log("awa")
-        input.handling(message)
-    } else console.log(owner)
 })
+bot.on('whisper', async (username, message) => {
+    mcs.whisper(username, message)
+    if (username === bot.username && username === "you") return
+    if (message.slice(0, 1) == "." && username == global.owner) input.handling(message)
+})
+
 bot.on('kicked', function (reason) {
     mcs.error("BOT IS KICKED. Reason:" + reason)
 })

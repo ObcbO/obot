@@ -1,4 +1,3 @@
-const main = require('./main');
 const mcs = require('./output')
 const readline = require('readline').createInterface({
     input: process.stdin,
@@ -34,20 +33,20 @@ function announceArrived() {
 function command(text) {
     switch (text[0]) {
         case ".go":
-            bot.pathfinder.setMovements(new Movements(bot, mcData))
-            bot.pathfinder.goto(new GoalNear(text[1], text[2], text[3])).then(announceArrived)
             break
         case "." :
         case ".help":
             mcs.cmd("----- HELP 帮助 -----")
-            mcs.cmd(".go x y z  --前往某个位置")
-            mcs.cmd(".help  --查看帮助")
-            mcs.cmd(".now [type/help]  --查看机器人信息")
-            mcs.cmd(".owner [玩家]  --主人")
-            mcs.cmd(".say 消息  --发送消息")
+            mcs.cmd("|.bot [type/help]  --查看机器人信息")
+            mcs.cmd("|.go x y z  --前往某个位置")
+            mcs.cmd("|.help  --查看帮助")
+            mcs.cmd("|.kill 玩家  --杀死某个玩家(在视距范围内寻找)")
+            mcs.cmd("|.owner [玩家]  --主人")
+            mcs.cmd("|.say 消息  --发送消息")
+            mcs.cmd("|.exit  --退出服务器")
             mcs.cmd("-------- END --------")
             break
-        case ".now":
+        case ".bot":
             switch (noc) {
                 case "food":
                     mcs.cmd("Food " + bot.food + "/20")
@@ -85,12 +84,12 @@ function command(text) {
             break
         case ".owner":
             if (!noc) {
-                if (!main.owner && typeof (main.owner) == "undefined") {
+                if (!global.owner && typeof (global.owner) == "undefined") {
                     mcs.error("BOT还没有设置主人 请使用 '/owner 玩家' 来设置")
-                } else mcs.cmd("Owner: " + main.owner)
+                } else mcs.cmd("Owner: " + global.owner)
             } else {
-                main.owner = noc
-                mcs.cmd("设置成功 Owner: " + main.owner)
+                global.owner = noc
+                mcs.cmd("设置成功 Owner: " + global.owner)
             }
             break
         case ".say":
@@ -100,6 +99,10 @@ function command(text) {
             } else {
                 mcs.cmd("你好像还没有输入要发送的消息")
             }
+            break
+        case ".exit":
+            bot.end
+            mcs.cmd("已断开与服务器的连接")
             break
         default:
             mcs.cmd("错误的命令，请输入 .help 查看帮助")
