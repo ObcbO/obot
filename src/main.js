@@ -10,8 +10,8 @@ const Movements = require('mineflayer-pathfinder').Movements
 const goals = require('mineflayer-pathfinder').goals
 
 const bot = mineflayer.createBot({
-    host: 'localhost',
-    username: 'ChinaTrump',
+    host: 'mc.whiteg.cn',
+    username: 'ObcbO',
     port: 25565,
     enableServerListing: false
 })
