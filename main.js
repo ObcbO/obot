@@ -1,3 +1,4 @@
+
 const mineflayer = require('mineflayer')
 const {
     send
@@ -24,27 +25,27 @@ bot.loadPlugin(pvp)
 const input = require('./input')
 const mcs = require('./output')
 
-//ÈÃËùÓĞjs¶¼¿ÉÒÔ·ÃÎÊb
+//è®©æ‰€æœ‰jséƒ½å¯ä»¥è®¿é—®b
 global.bot = bot
 global.pvp = pvp
 global.pathfinder = pathfinder
 global.Movements = Movements
 global.goals = goals
 
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 var owner
 global.owner = owner
 // Require MCData and set pathfinder movements
 global.mcData = require('minecraft-data')(bot.version)
 
-//¿ØÖÆÌ¨ÊäÈë
+//æ§åˆ¶å°è¾“å…¥
 input.sendmessage()
 
-//¿ØÖÆÌ¨ĞÅÏ¢ÏÔÊ¾
+//æ§åˆ¶å°ä¿¡æ¯æ˜¾ç¤º
 bot.on('message', async (game_info) => {
     mcs.info(game_info)
 })
-//¿ØÖÆÌ¨ÁÄÌìÏÔÊ¾
+//æ§åˆ¶å°èŠå¤©æ˜¾ç¤º
 bot.on('chat', async (username, message) => {
     mcs.chat(username, message)
 })
