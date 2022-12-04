@@ -1,23 +1,20 @@
-
 const mineflayer = require('mineflayer')
 const {
     send
 } = require('process')
 const pvp = require('mineflayer-pvp').plugin
-const autoEat = require('mineflayer-auto-eat')
 const pathfinder = require('mineflayer-pathfinder').pathfinder
 const Movements = require('mineflayer-pathfinder').Movements
 const goals = require('mineflayer-pathfinder').goals
 
 const bot = mineflayer.createBot({
-    host: 'mc.whiteg.cn',
+    host: 'ddns.hentai.net.cn',
     username: 'ObcbO',
-    port: 25565,
-    enableServerListing: false
+    port: 19747,
+    version: "1.19",
 })
 
 //load plugins
-bot.loadPlugin(autoEat)
 bot.loadPlugin(pathfinder)
 bot.loadPlugin(pvp)
 
@@ -64,21 +61,6 @@ bot.on('error', (err) => {
 bot.on('spawn', () => {
     bot.on('death', function () {
         mcs.warn("DEATH Position " + bot.entity.position)
-    })
-    //eat
-    bot.on('autoeat_started', () => {
-        console.warn('Auto Eat started!')
-    })
-    bot.on('autoeat_stopped', () => {
-        console.warn('Auto Eat stopped!')
-    })
-    bot.on('health', async () => {
-        mcs.warn("Health " + bot.health + "/20")
-        if (bot.food === 20) {
-            bot.autoEat.disable()
-        } else {
-            bot.autoEat.enable()
-        }
     })
 
     setInterval(() => {
