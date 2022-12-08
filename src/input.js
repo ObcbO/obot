@@ -26,6 +26,11 @@ function handling(msg) {
 
 function command(text) {
     switch (text[0]) {
+        case ".tab":
+            var tablist = bot.tablist
+            mcs.cmd(Object.keys(tablist))
+            mcs.cmd(Object.values(tablist))
+            break
         case ".bot":
             switch (noc) {
                 case "food":
